@@ -14,7 +14,7 @@ setup(
     maintainer="Tanguy Ladet",
     maintainer_email='sti2dlab.ladettanguy@gmail.com',
     author_email='sti2dlab.ladettanguy@gmail.com',
-    packages=find_packages(include=['TMKTProcess.*']),
+    packages=find_packages(include=['tmktprocess.*']),
     url='https://github.com/ladettanguy/TMKTProcess',
     download_url='https://github.com/ladettanguy/TMKTProcess.git',
     keywords=

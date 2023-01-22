@@ -1,5 +1,5 @@
 from threading import Lock, Event
-from TMKTProcess import Process
+from tmktprocess import Process
 
 
 class DummyProcess(Process):
