@@ -2,38 +2,31 @@ from threading import Lock, Event
 from tmktprocess import Process
 
 
-class DummyProcess(Process):
-
-    def exec(self, x: int, y: int) -> int:
-        return x + y
+def dummy_process(x: int, y: int) -> int:
+    return x + y
 
 
-class DummyDelayProcess(Process):
-
-    def exec(self, lock: Lock) -> True:
-        lock.acquire()
-        return True
+def dummy_delay_process(lock: Lock) -> True:
+    lock.acquire()
+    return True
 
 
-class DummyEventProcess(Process):
-
-    def exec(self, event: Event) -> True:
-        event.wait()
-        return True
+def dummy_event_process(event: Event) -> True:
+    event.wait()
+    return True
 
 
 def test_case_nominal():
     x, y = (1, 3)
-    process = DummyProcess()
-    process_key = process.start(x, y)
-    assert process_key == process._uuid
+    process = Process(dummy_process)
+    process.start(x, y)
     result = process.join()
     print(result)
     assert result == x + y
 
 
 def test_delay_timeout():
-    process = DummyDelayProcess()
+    process = Process(dummy_delay_process)
     lock = Lock()
     lock.acquire()
     process.start(lock)
@@ -46,12 +39,12 @@ def test_delay_timeout():
 
 def test_event_is_set():
     event = Event()
-    process = DummyProcess(event_callback=event)
-    process_wait = DummyEventProcess()
+    process = Process(dummy_process, event_callback=event)
+    process_wait = Process(dummy_event_process)
     process_wait.start(event)
     result = process_wait.join(1)
     assert result is None
     process.start(1, 2)
     process.join()
     result = process_wait.join()
-    assert result == True
+    assert result
