@@ -9,29 +9,26 @@ pip install tmktprocess
 ## How to import it
 
 ```py
-from TMKTProcess import Process
+from tmktprocess import Process
 ```
 
 ## How to use it
 
 ```py
-from TMKTProcess import Process
-
-class MyProcess(Process):
-    
-    def exec(self, *args, **kwargs) -> Any:
-        # Do some stuff here and return what you want
+def my_func(*args, **kwargs):
+    # do some stuff
+    pass
 ```
 
 > To start your process you have to do this:
 
 ```py
-process = MyProcess()
+process = Process(my_func)
 process.start(my_args, my_kwargs)
 result = process.join()
 ```
 
-> The .start() will call your exec() implementation and pass the args and kwargs
+> The .start() will call your function and pass the args and kwargs, then the result will be return with the .join() method
 
 ### Use with Event
 
@@ -40,9 +37,9 @@ result = process.join()
 ```py
 from threading import Event
 my_event = Event()
-process = MyProcess(my_event)
+process = Process(my_func, my_event)
 ```
 
-> When the exec() method will end, the event will be set
+> When the method will end, the event will be set
 > 
 > You can use it for everything you want
