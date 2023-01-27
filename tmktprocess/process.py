@@ -1,4 +1,3 @@
-import uuid
 from threading import Thread, Event
 from typing import Dict, Any, Optional, List, Callable
 
@@ -8,7 +7,6 @@ class Process(Thread):
     def __init__(self, func: Callable, event_callback: Optional[Event] = None):
         self._result: Optional[Any] = None
         self.event: Optional[Event] = event_callback
-        self._uuid: str = uuid.uuid4().hex
         self._func = func
         Thread.__init__(self, target=self._run)
         self._args: List[Any] = []
